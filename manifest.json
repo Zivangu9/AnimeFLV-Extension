@@ -1,0 +1,18 @@
+{
+    "manifest_version": 2,
+    "name": "AnimeFLV",
+    "version": "1.0",
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www3.animeflv.net/perfil/*"
+            ],
+            "js": [
+                "js/profile.js"
+            ]
+        }
+    ],
+    "icons": {
+        "128": "img/logo.png"
+    }
+}
