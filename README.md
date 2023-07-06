@@ -1,14 +1,14 @@
 # AnimeFLV-Opera-add-on
 
-Con este complemento para el navegador se le agrega funcionalidad extra a la pagina AnimieFLV
+Con este complemento para el navegador se le agrega funcionalidad extra a la página AnimeFLV
 
 #### Navegadores Probados
 ![Opera](https://img.shields.io/badge/Opera_GX-ff1b2d?logo=opera&logoColor=white)
 
-#### Caracteristicas Agregados
+#### Características Agregados
 
-#### Caracteristicas por Agregar
-* Seccion en perfil
+#### Características por Agregar
+* Sección en perfil
     * Animes vistos
     * Animes viendo
     * Resumen de animes en perfil
@@ -21,6 +21,6 @@ Con este complemento para el navegador se le agrega funcionalidad extra a la pag
 * Tab en pantalla de inicio
     * Animes vistos
     * Animes viendo
-* total/vistos de capitulos en:
-    * Lista de caputilos
-    * Caratula en pantalla de viendo
+* total/vistos de capítulos en:
+    * Lista de capítulos
+    * Carátula en pantalla de viendo
