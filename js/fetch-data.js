@@ -62,6 +62,118 @@ const exampleAnimeList = [
   },
 ];
 
+const exampleList = [
+  ["1", "Bleach", "bleach-tv", "3602", "tv"],
+  ["2", "Naruto", "naruto", "5373", "tv"],
+  // ["3", "Naruto Shippuden", "naruto-shippuden-hd", "5374", "tv"],
+  // ["4", "Highschool of the Dead", "highschool-of-the-dead", "3564", "tv"],
+  // ["5", "Fairy Tail", "fairy-tail", "5219", "tv"],
+  // ["6", "To Love Ru", "to-love-ru", "6", "tv"],
+  // ["7", "One Piece", "one-piece-tv", "5495", "tv"],
+  // ["8", "Kaichou wa maid sama!", "kaichou-wa-maid-sama", "3551", "tv"],
+  // ["9", "Elfen Lied", "elfen-lied", "9", "tv"],
+  // ["10", "Death Note", "death-note", "5153", "tv"],
+  // [
+  //   "11",
+  //   "Ichiban Ushiro no Daimaou",
+  //   "ichiban-ushiro-no-daimaou",
+  //   "5343",
+  //   "tv",
+  // ],
+  // ["12", "07 Ghost", "07-ghost", "12", "tv"],
+  // ["13", "ToraDora!", "toradora", "13", "tv"],
+  // [
+  //   "14",
+  //   "Abenobashi Maho Shotengai",
+  //   "abenobashi-maho-shotengai",
+  //   "5323",
+  //   "tv",
+  // ],
+  // ["15", "Air Gear", "air-gear", "4596", "tv"],
+  [
+    "3836",
+    "Jujutsu Kaisen 2nd Season",
+    "jujutsu-kaisen-2nd-season",
+    "6275",
+    "tv",
+  ],
+];
+const complete_list = $.get("https://www3.animeflv.net/api/animes/list");
 const getWatchedList = () => {
+  console.log();
   return exampleAnimeList;
+};
+
+const requestOptions = {
+  headers: {
+    Accept: "text/html",
+    "Content-Type": "text/html",
+  },
+};
+function fetchAnimes(urls) {
+  const promises = urls.map((url) =>
+    fetch(`https://www3.animeflv.net/anime/${url[2]}`, requestOptions)
+      .then((response) => response.text())
+      .then((response) => {
+        const anime = parseHtmlToJson(url, response);
+        response = null;
+        return anime;
+      })
+  );
+  return Promise.all(promises);
+}
+
+function removeImagesFromHtml(html) {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, "text/html");
+  const images = doc.getElementsByTagName("img");
+  for (let i = images.length - 1; i >= 0; i--) {
+    images[i].remove();
+  }
+  const modifiedHtml = doc.documentElement.innerHTML;
+  return modifiedHtml;
+}
+
+const parseHtmlToJson = (original, htmlString) => {
+  const anime = {
+    id: original[0],
+    name: original[1],
+    url_name: original[2],
+    type: original[4],
+    banner_url: `/uploads/animes/banners/${original[0]}.jpg`,
+    cover_url: `/uploads/animes/covers/${original[0]}.jpg`,
+  };
+  const $html = $(removeImagesFromHtml(htmlString));
+  // Stars
+  anime.stars = $html.find("span.vtprmd[id='votes_prmd']").text();
+  // Description
+  anime.description = $html.find("div.Description>p").text();
+  // Genres
+  anime.genres = $html.find("nav.Nvgnrs>a").map(
+    (i, a) =>
+      $(a)
+        .attr("href")
+        .match(/genre=(\w+)/)[1]
+  );
+  // State
+  const $aside = $($html.find("aside.SidebarA.BFixed>p.AnmStts"));
+  anime.state = getState($aside);
+
+  // Episodes
+  const script = $html.filter("script:not([src]):not([type])")[2];
+  if (script) {
+    const last_seen_match = script.innerHTML.match(/var last_seen = (.+);/);
+    if (last_seen_match) anime.last_seen = last_seen_match[1];
+    const episodes_match = script.innerHTML.match(/var episodes = (\[.*?\]);/);
+    if (episodes_match) anime.episodes = JSON.parse(episodes_match[1]);
+    if (anime.episodes && anime.episodes.length > 0)
+      anime.last_episode = anime.episodes[0][0].toString();
+  }
+  return anime;
+};
+
+const getState = ($aside) => {
+  if ($aside.hasClass("A")) return 2;
+  if ($aside.hasClass("B")) return 3;
+  return 1;
 };
