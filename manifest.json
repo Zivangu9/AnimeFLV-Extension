@@ -9,6 +9,8 @@
             ],
             "js": [
                 "js/jquery-3.7.0.min.js",
+                "js/utility.js",
+                "js/storage.js",
                 "js/fetch-data.js",
                 "js/profile.js",
                 "js/watched.js"
