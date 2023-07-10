@@ -107,7 +107,8 @@ const getState = ($aside) => {
 
 const fetchUserAnimes = (progress, myError) => {
   complete_list.then(async (list) => {
-    const listJson = JSON.parse(list).slice(0, 150);
+    // const listJson = JSON.parse(list).slice(0, 500); //Limit list to fetch
+    const listJson = JSON.parse(list);
     const total = listJson.length;
     const max = 50;
     let i = 0;
@@ -145,7 +146,7 @@ const getUser = () =>
       const avatarImage = getAvatarImage(htmlString);
       if (avatarImage) {
         const $avatarImage = $(avatarImage);
-        console.log($avatarImage.attr("src")); //Todo: do we need the avatar image?
+        // console.log($avatarImage.attr("src")); //Todo: do we need the avatar image?
       }
       const $html = $(removeImagesFromHtml(htmlString));
       const script = $html.filter("script:not([src]):not([type])")[0];

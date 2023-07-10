@@ -12,6 +12,4 @@ if (
     }/vistos" class="Button StylC ShwMr Alt">Ver todos</a>
 	</section>
   `);
-    }
-  });
 }

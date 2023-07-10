@@ -12,6 +12,7 @@
                 "js/utility.js",
                 "js/storage.js",
                 "js/fetch-data.js",
+                "js/general.js",
                 "js/profile.js",
                 "js/watched.js"
             ]
