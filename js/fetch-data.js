@@ -146,7 +146,7 @@ const getUser = () =>
       const avatarImage = getAvatarImage(htmlString);
       if (avatarImage) {
         const $avatarImage = $(avatarImage);
-        // console.log($avatarImage.attr("src")); //Todo: do we need the avatar image?
+        // console.log($avatarImage.attr("src")); //TODO: do we need the avatar image?
       }
       const $html = $(removeImagesFromHtml(htmlString));
       const script = $html.filter("script:not([src]):not([type])")[0];
