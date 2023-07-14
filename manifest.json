@@ -2,6 +2,18 @@
     "manifest_version": 2,
     "name": "AnimeFLV",
     "version": "1.0",
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "scripts": [
+            "js/jquery-3.7.0.min.js",
+            "js/utility.js",
+            "js/storage.js",
+            "js/background.js"
+        ],
+        "persistent": true
+    },
     "content_scripts": [
         {
             "matches": [
@@ -10,7 +22,6 @@
             "js": [
                 "js/jquery-3.7.0.min.js",
                 "js/utility.js",
-                "js/storage.js",
                 "js/fetch-data.js",
                 "js/general.js",
                 "js/anime.js",

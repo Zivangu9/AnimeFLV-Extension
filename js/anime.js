@@ -1,5 +1,5 @@
 // Set default screenshots
-$(document).ready(() => {
+if (currentPage === Pages.ANIME) {
   const processImage = (img) => {
     const src = img.attr("data-src");
     fetch(src).catch((error) => {
@@ -29,4 +29,13 @@ $(document).ready(() => {
   const observer = new MutationObserver(callback);
   const config = { childList: true, subtree: true };
   observer.observe(document.body, config);
-});
+
+  const anime = parseHtmlToJson($("html").html());
+  getUser().then((user) => {
+    if (user) {
+      chrome.runtime.sendMessage({ action: "updateUserAnime", user, anime });
+    }
+  });
+}
+
+//TODO: Get anime info and update user info (to the same on chapter page, and every time the view toggle is used)

@@ -1,9 +1,5 @@
 //Create watched Section
-const url = window.location.href;
-if (
-  url.startsWith("https://www3.animeflv.net/perfil/") &&
-  url.split("/").length === 5
-) {
+if (currentPage === Pages.PROFILE) {
   $(".Main").prepend(`
   	<section class="WdgtCn">
 		<div class="Top"><div class="Title">Animes ya vistos</div></div>
@@ -12,4 +8,14 @@ if (
     }/vistos" class="Button StylC ShwMr Alt">Ver todos</a>
 	</section>
   `);
+  getUser().then((user) => {
+    if (user) {
+      chrome.runtime.sendMessage(
+        { action: "getUserData", user },
+        (response) => {
+          console.log(response);
+        }
+      );
+    }
+  });
 }
