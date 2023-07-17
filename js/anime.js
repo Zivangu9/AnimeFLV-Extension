@@ -22,12 +22,22 @@ if (currentPage === Pages.ANIME) {
           .each(function () {
             processImage($(this));
           });
+      } else if (
+        mutation.type === "attributes" &&
+        mutation.attributeName === "style"
+      ) {
+        callUpdateUserAnime();
       }
     }
   };
 
   const observer = new MutationObserver(callback);
-  const config = { childList: true, subtree: true };
+  const config = {
+    childList: true,
+    subtree: true,
+    attributes: true,
+    attributeFilter: ["style"],
+  };
   observer.observe(document.body, config);
 
   const anime = parseHtmlToJson($("html").html());
@@ -37,9 +47,9 @@ if (currentPage === Pages.ANIME) {
     }
   });
 
-  $(document).on("DOMNodeInserted", ".alertify-logs", () => {
+  const callUpdateUserAnime = () => {
     getUser().then((user) => {
-      if (user) {
+      if (user && chrome.runtime && chrome.runtime.sendMessage) {
         chrome.runtime.sendMessage({
           action: "updateUserAnime",
           user,
@@ -47,5 +57,7 @@ if (currentPage === Pages.ANIME) {
         });
       }
     });
-  });
+  };
+
+  $(document).on("DOMNodeInserted", ".alertify-logs", callUpdateUserAnime);
 }

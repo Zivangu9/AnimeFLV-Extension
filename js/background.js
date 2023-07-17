@@ -54,18 +54,25 @@ const fetchUserAnimes = (user) => {
     const total = listJson.length;
     const max = 50;
     let i = 0;
-    const watching = [];
-    const watched = [];
+    const animeList = {
+      watched: [],
+      watching: [],
+      favorite: [],
+      follow: [],
+      pending: [],
+    };
     while (i < listJson.length) {
       await fetchAnimes(listJson.slice(i, i + max))
         .then((dataArray) => {
-          const procesing = dataArray.filter(
-            (anime) => getUserAnimeState(anime) !== AnimeState.NOT_WATCHING
-          );
-          procesing.forEach((anime) => {
-            if (getUserAnimeState(anime) === AnimeState.WATCHED)
-              watched.push(anime);
-            else watching.push(anime);
+          dataArray.forEach((anime) => {
+            const animeState = getUserAnimeState(anime);
+            if (animeState === AnimeState.WATCHED)
+              animeList.watched.push(anime);
+            else if (animeState === AnimeState.WATCHING)
+              animeList.watching.push(anime);
+            if (anime.favorite) animeList.favorite.push(anime);
+            if (anime.follow) animeList.follow.push(anime);
+            if (anime.pending) animeList.pending.push(anime);
           });
           i += max;
           progress((i / max / (total / max)) * 100);
@@ -75,7 +82,7 @@ const fetchUserAnimes = (user) => {
           console.error("Error fetching data:", error);
         });
     }
-    saveUserFetch(user, watched, watching);
     isRunning = false;
+    saveUserFetch(user, animeList);
   });
 };

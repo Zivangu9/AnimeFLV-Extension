@@ -62,6 +62,9 @@ const parseHtmlToJson = (htmlString) => {
   anime.id = $html.find("div.Strs.RateIt").attr("data-id");
   anime.banner_url = `/uploads/animes/banners/${anime.id}.jpg`;
   anime.cover_url = `/uploads/animes/covers/${anime.id}.jpg`;
+  anime.favorite = $html.find("#add_favorite").css("display") === "none";
+  anime.follow = $html.find("#follow_anime").css("display") === "none";
+  anime.pending = $html.find("#add_pending").css("display") === "none";
   // Stars
   anime.stars = $html.find("span.vtprmd[id='votes_prmd']").text();
   // Description
