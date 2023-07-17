@@ -21,8 +21,6 @@ const loadProfileBasePage = (profile) => {
     });
 };
 
-
-
 const getUser = () =>
   fetch("https://www3.animeflv.net")
     .then((response) => response.text())

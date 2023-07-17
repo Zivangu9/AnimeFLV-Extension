@@ -23,7 +23,7 @@ const Pages = {
   PROFILE: 1,
   WATCHED: 2,
   WATCHING: 3,
-  WATCH: 4,
+  EPISODE: 4,
   ANIME: 5,
 };
 
@@ -45,7 +45,7 @@ const getCurrentPage = (url) => {
     url.split("/")[5] === "viendo"
   )
     return Pages.WATCHING;
-  if (url.startsWith("https://www3.animeflv.net/ver/")) return Pages.WATCH;
+  if (url.startsWith("https://www3.animeflv.net/ver/")) return Pages.EPISODE;
   if (url.startsWith("https://www3.animeflv.net/anime/")) return Pages.ANIME;
 };
 
@@ -116,3 +116,5 @@ const getAvatarImage = (html) => {
   }
   return null;
 };
+
+//TODO: Remove social media links from profile

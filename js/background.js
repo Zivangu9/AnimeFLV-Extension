@@ -15,7 +15,11 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     sendResponse(getUserData(message.user));
   }
   if (message.action === "updateUserAnime") {
-    updateUserAnime(message.user, message.anime);
+    if (message.anime) updateUserAnime(message.user, message.anime);
+    else if (message.animeUrl)
+      fetchAnimes([message.animeUrl]).then((res) =>
+        updateUserAnime(message.user, res[0])
+      );
   }
   if (message.action === "autoFetch") {
     const userData = getUserData(message.user);
@@ -30,7 +34,7 @@ const complete_list = $.get("https://www3.animeflv.net/api/animes/list");
 
 const fetchAnimes = (urls) => {
   const promises = urls.map((url) =>
-    fetch(`https://www3.animeflv.net/anime/${url[2]}`)
+    fetch(`https://www3.animeflv.net/anime/${url}`)
       .then((response) => response.text())
       .then((response) => {
         const anime = parseHtmlToJson(response);
@@ -46,7 +50,7 @@ const fetchUserAnimes = (user) => {
   progress(0);
   complete_list.then(async (list) => {
     // const listJson = JSON.parse(list).slice(0, 500); //Limit list to fetch
-    const listJson = JSON.parse(list);
+    const listJson = JSON.parse(list).map((info) => info[2]);
     const total = listJson.length;
     const max = 50;
     let i = 0;

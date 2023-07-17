@@ -5,6 +5,9 @@ $("head").append(`
   a.a-spin::before {
     animation: fa-spin 1s steps(8) infinite;
   }
+  .alertify-logs {
+    z-index: 10;
+  }
 </style>
 `);
 
@@ -45,5 +48,3 @@ getUser().then((user) => {
     });
   }
 });
-
-//TODO: Get url and create variables to store current page (example: index, profile, anime, etc)

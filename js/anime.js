@@ -36,6 +36,16 @@ if (currentPage === Pages.ANIME) {
       chrome.runtime.sendMessage({ action: "updateUserAnime", user, anime });
     }
   });
-}
 
-//TODO: Get anime info and update user info (to the same on chapter page, and every time the view toggle is used)
+  $(document).on("DOMNodeInserted", ".alertify-logs", () => {
+    getUser().then((user) => {
+      if (user) {
+        chrome.runtime.sendMessage({
+          action: "updateUserAnime",
+          user,
+          animeUrl: anime.url_name,
+        });
+      }
+    });
+  });
+}

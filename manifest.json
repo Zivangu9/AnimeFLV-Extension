@@ -26,7 +26,8 @@
                 "js/general.js",
                 "js/anime.js",
                 "js/profile.js",
-                "js/watched.js"
+                "js/watched.js",
+                "js/episode.js"
             ]
         }
     ],
