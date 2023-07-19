@@ -1,5 +1,5 @@
-const loadProfileBasePage = (profile) => {
-  fetch(`https://www3.animeflv.net/perfil/${profile}/favoritos`)
+const loadProfileBasePage = (user) => {
+  fetch(`https://www3.animeflv.net/perfil/${user}/favoritos`)
     .then((response) => response.text())
     .then((html) => {
       document.documentElement.innerHTML = html;

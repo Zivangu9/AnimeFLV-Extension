@@ -1,4 +1,8 @@
 //Create watched view
 if (currentPage === Pages.WATCHED) {
-  loadProfileBasePage(url.split("/")[4]);
+  getUser().then((user) => {
+    if (user) {
+      loadProfileBasePage(user);
+    }
+  });
 }

@@ -120,4 +120,11 @@ const getAvatarImage = (html) => {
   return null;
 };
 
+const getTypeText = (type) => {
+  if (type === "tv") return "ANIME";
+  if (type === "ova") return "OVA";
+  if (type === "movie") return "PELÍCULA";
+  if (type === "special") return "ESPECIAL ";
+  return "";
+};
 //TODO: Remove social media links from profile

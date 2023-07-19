@@ -8,6 +8,9 @@ $("head").append(`
   .alertify-logs {
     z-index: 10;
   }
+  .p-0 {
+    padding: 0 !important;
+  }
 </style>
 `);
 
