@@ -8,6 +8,9 @@ Con este complemento para el navegador se le agrega funcionalidad extra a la pá
 
 #### Características Agregados
 
+- Imagen estándar para cuando el preview del capítulo no se encuentra
+- Boton para cargar lista de animes solo si el usuario está logeado
+
 #### Características por Agregar
 
 - Sección en perfil
@@ -26,5 +29,3 @@ Con este complemento para el navegador se le agrega funcionalidad extra a la pá
 - total/vistos de capítulos en:
   - Lista de capítulos
   - Carátula en pantalla de viendo
-- Imagen estándar para cuando el preview del capítulo no se encuentra
-- Popup para cargar lista de animes solo si el usuario está logeado
