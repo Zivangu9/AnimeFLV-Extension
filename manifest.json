@@ -7,10 +7,10 @@
     ],
     "background": {
         "scripts": [
-            "js/jquery-3.7.0.min.js",
-            "js/utility.js",
-            "js/storage.js",
-            "js/background.js"
+            "/js/jquery-3.7.0.min.js",
+            "/js/utility.js",
+            "/js/storage.js",
+            "/js/background.js"
         ],
         "persistent": true
     },
@@ -20,14 +20,14 @@
                 "https://www3.animeflv.net/*"
             ],
             "js": [
-                "js/jquery-3.7.0.min.js",
-                "js/utility.js",
-                "js/fetch-data.js",
-                "js/general.js",
-                "js/anime.js",
-                "js/profile.js",
-                "js/watched.js",
-                "js/episode.js"
+                "/js/jquery-3.7.0.min.js",
+                "/js/utility.js",
+                "/js/fetch-data.js",
+                "/views/general.js",
+                "/views/anime.js",
+                "/views/profile.js",
+                "/views/watched.js",
+                "/views/episode.js"
             ]
         }
     ],
