@@ -32,13 +32,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
 const complete_list = $.get("https://www3.animeflv.net/api/animes/list");
 
-const fetchAnimes = (urls) => {
-  const promises = urls.map((url) =>
-    fetch(`https://www3.animeflv.net/anime/${url}`)
+const fetchAnimes = (animes) => {
+  const promises = animes.map((anime) =>
+    fetch(`https://www3.animeflv.net/anime/${anime}`)
       .then((response) => response.text())
       .then((response) => {
-        const anime = parseHtmlToJson(response);
-        return anime;
+        return parseHtmlToJson(response);
       })
   );
   return Promise.all(promises);

@@ -1,27 +1,23 @@
-const url = window.location.href;
+const url = new URL(window.location.href);
+const urlSearchParams = new URLSearchParams(url.search);
 const currentPage = getCurrentPage(url);
-$("head").append(`
-<style type="text/css">
-  a.a-spin::before {
-    animation: fa-spin 1s steps(8) infinite;
-  }
-  .alertify-logs {
-    z-index: 10;
-  }
-  .p-0 {
-    padding: 0 !important;
-  }
-</style>
-`);
+
+//Fix stars
+$("div.Vts.fa-star").each((i, label) => {
+  let stars = parseFloat($(label).text());
+  if (stars > 5) stars = stars / 20;
+  $(label).text(stars.toFixed(1));
+});
+// $("div.Vts.fa-star").text(parseFloat($("div.Vts.fa-star").text()).toFixed(1));
 
 //Add fetch button
 getUser().then((user) => {
   if (user) {
     $("ul.ListUser").children().last().before(`
-    <li>
-        <a id="li-list-user" href="#" rel="nofollow" class="fa-spinner">Atualizar Lista</a>
-    </li>
-  `);
+      <li>
+          <a id="li-list-user" href="#" rel="nofollow" class="fa-spinner">Atualizar Lista</a>
+      </li>
+    `);
 
     const li = $("a#li-list-user");
     li.on("click", () => {

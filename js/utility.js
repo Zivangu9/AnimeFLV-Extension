@@ -1,3 +1,11 @@
+const AnimeLists = {
+  FAVORITE: 0,
+  FOLLOW: 1,
+  PENDING: 2,
+  WATCHED: 3,
+  WATCHING: 4,
+};
+
 const AnimeState = {
   NOT_WATCHING: 0,
   WATCHED: 1,
@@ -12,7 +20,7 @@ const getUserAnimeState = (anime) => {
     anime.state &&
     anime.last_seen !== "0"
   ) {
-    if (anime.last_episode === anime.last_seen && anime.state === 2)
+    if (anime.last_episode === anime.last_seen && anime.state === "2")
       return AnimeState.WATCHED;
     return AnimeState.WATCHING;
   } else return AnimeState.NOT_WATCHING;
@@ -28,25 +36,13 @@ const Pages = {
 };
 
 const getCurrentPage = (url) => {
-  if (
-    url.startsWith("https://www3.animeflv.net/perfil/") &&
-    url.split("/").length === 5
-  )
-    return Pages.PROFILE;
-  if (
-    url.startsWith("https://www3.animeflv.net/perfil/") &&
-    url.split("/").length === 6 &&
-    url.split("/")[5] === "vistos"
-  )
-    return Pages.WATCHED;
-  if (
-    url.startsWith("https://www3.animeflv.net/perfil/") &&
-    url.split("/").length === 6 &&
-    url.split("/")[5] === "viendo"
-  )
-    return Pages.WATCHING;
-  if (url.startsWith("https://www3.animeflv.net/ver/")) return Pages.EPISODE;
-  if (url.startsWith("https://www3.animeflv.net/anime/")) return Pages.ANIME;
+  if (url.pathname.startsWith("/perfil/")) {
+    if (url.pathname.split("/").length === 3) return Pages.PROFILE;
+    if (url.pathname.split("/")[3] === "vistos") return Pages.WATCHED;
+    if (url.pathname.split("/")[3] === "viendo") return Pages.WATCHING;
+  }
+  if (url.pathname.startsWith("/ver/")) return Pages.EPISODE;
+  if (url.pathname.startsWith("/anime/")) return Pages.ANIME;
 };
 
 const parseHtmlToJson = (htmlString) => {
@@ -70,12 +66,15 @@ const parseHtmlToJson = (htmlString) => {
   // Description
   anime.description = $html.find("div.Description>p").text();
   // Genres
-  anime.genres = $html.find("nav.Nvgnrs>a").map(
-    (i, a) =>
-      $(a)
-        .attr("href")
-        .match(/genre=(\w+)/)[1]
-  );
+  anime.genres = $html
+    .find("nav.Nvgnrs>a")
+    .map(
+      (i, a) =>
+        $(a)
+          .attr("href")
+          .match(/genre=(\w+)/)[1]
+    )
+    .get();
   // State
   const $aside = $($html.find("aside.SidebarA.BFixed>p.AnmStts"));
   anime.state = getState($aside);
@@ -94,9 +93,9 @@ const parseHtmlToJson = (htmlString) => {
 };
 
 const getState = ($aside) => {
-  if ($aside.hasClass("A")) return 2;
-  if ($aside.hasClass("B")) return 3;
-  return 1;
+  if ($aside.hasClass("A")) return "2";
+  if ($aside.hasClass("B")) return "3";
+  return "1";
 };
 
 const removeImagesFromHtml = (html) => {
@@ -128,3 +127,60 @@ const getTypeText = (type) => {
   return "";
 };
 //TODO: Remove social media links from profile
+
+const createTypeListIcon = (typeList) => {
+  if (typeList) {
+    if (typeList === AnimeLists.WATCHED)
+      return `<a class="AnmQv p-0 fa-eye-slash"></a>`;
+    if (typeList === AnimeLists.WATCHING)
+      return `<a class="AnmQv p-0 fa-eye"></a>`;
+  }
+  return "";
+};
+const createAnimeLi = (anime, typeList) => {
+  return `
+  <li>
+    <article class="Anime alt">
+    ${createTypeListIcon(typeList)}
+      <div class="Image">
+        <figure><img src="${anime.cover_url}" alt="" /></figure>
+        <span class="Type ${anime.type}">${getTypeText(anime.type)}</span>
+        <div class="Description">
+          <div class="Title">
+            <strong><a href="/anime/${anime.url_name}">${
+    anime.name
+  }</a></strong>
+          </div>
+          <div class="Vts fa-star">${anime.stars}</div>
+          <p>${anime.description}</p>
+        </div>
+      </div>
+      <h3 class="Title"><a href="/anime/${anime.url_name}">${
+    anime.name
+  }</a></h3>
+    </article>
+  </li>`;
+};
+
+const filterList = (list, params) => {
+  //TODO: Add pagination
+  if (params.has("genre[]"))
+    list = list.filter((anime) =>
+      anime.genres.some((genre) => params.getAll("genre[]").includes(genre))
+    );
+  if (params.has("type[]"))
+    list = list.filter((anime) => params.getAll("type[]").includes(anime.type));
+  if (params.has("status[]"))
+    list = list.filter((anime) =>
+      params.getAll("status[]").includes(anime.state)
+    );
+  if (params.has("order")) {
+    if (params.get("order") === "title")
+      list = list.sort((a, b) => a.name.localeCompare(b.name));
+    else if (params.get("order") === "rating")
+      list = list.sort((a, b) => parseFloat(b.stars) - parseFloat(a.stars));
+    else list = list.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
+  }
+
+  return list;
+};

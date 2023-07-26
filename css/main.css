@@ -1,0 +1,11 @@
+a.a-spin::before {
+    animation: fa-spin 1s steps(8) infinite;
+}
+
+.alertify-logs {
+    z-index: 10;
+}
+
+.p-0 {
+    padding: 0 !important;
+}

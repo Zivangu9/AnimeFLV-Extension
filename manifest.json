@@ -28,6 +28,9 @@
                 "/views/profile.js",
                 "/views/watched.js",
                 "/views/episode.js"
+            ],
+            "css": [
+                "/css/main.css"
             ]
         }
     ],
