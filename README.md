@@ -10,19 +10,20 @@ Con este complemento para el navegador se le agrega funcionalidad extra a la pá
 
 - Imagen estándar para cuando el preview del capítulo no se encuentra
 - Boton para cargar lista de animes solo si el usuario está logeado
+- Sección en perfil
+  - Animes vistos
+  - Animes viendo
+  - Total de anime en listas
 
 #### Características por Agregar
 
 - Sección en perfil
-  - Animes vistos
-  - Animes viendo
   - Resumen de animes en perfil
     - No. de animes favoritos
     - No. de animes vistos
     - No. de animes viendo
     - No. de animes seguidos
     - No. de animes por ver
-  - Total de anime en listas
 - Tab en pantalla de inicio
   - Animes vistos
   - Animes viendo
