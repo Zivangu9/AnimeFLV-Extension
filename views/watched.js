@@ -13,9 +13,15 @@ if (currentPage === Pages.WATCHED) {
           chrome.runtime.sendMessage(
             { action: "getUserData", user },
             (response) => {
-              filterList(response.watched, urlSearchParams).forEach((anime) => {
-                $("main.Main>section>ul").append(createAnimeLi(anime));
-              });
+              const result = filterList(response.watched, urlSearchParams);
+              const fromItem =
+                result.pagination.pageSize * (result.pagination.page - 1);
+              result.data
+                .slice(fromItem, fromItem + result.pagination.pageSize)
+                .forEach((anime) => {
+                  $("main.Main>section>ul").append(createAnimeLi(anime));
+                });
+              createPagination(result.pagination, `/perfil/${user}/vistos`);
             }
           );
         });

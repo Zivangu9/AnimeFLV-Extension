@@ -163,7 +163,8 @@ const createAnimeLi = (anime, typeList) => {
 };
 
 const filterList = (list, params) => {
-  //TODO: Add pagination
+  const pageSize = Number.parseInt(params.get("page_size")) || 24;
+  const page = Number.parseInt(params.get("page")) || 1;
   if (params.has("genre[]"))
     list = list.filter((anime) =>
       anime.genres.some((genre) => params.getAll("genre[]").includes(genre))
@@ -182,5 +183,82 @@ const filterList = (list, params) => {
     else list = list.sort((a, b) => parseFloat(a.id) - parseFloat(b.id));
   }
 
-  return list;
+  return {
+    data: list,
+    pagination: {
+      page,
+      pageSize,
+      pages: Math.ceil(list.length / pageSize),
+    },
+  };
+};
+
+const createPageLink = (path, params, index) => {
+  return $(`
+  <li>
+    <a href="${path}?${params}">
+      ${index}
+    </a>
+  </li>`);
+};
+
+const pagesRange = (page, limit, total) => {
+  const from = Math.max(1, page - limit);
+  const to = Math.min(page + limit, total);
+  return {
+    from: Math.max(1, from - (page + limit - to)),
+    to: Math.min(to + (from - (page - limit)), total),
+  };
+};
+
+const createPagination = (pagination, path) => {
+  const limit = 5;
+  const pages = pagesRange(pagination.page, limit, pagination.pages);
+  for (let index = pages.from; index <= pages.to; index++) {
+    if (index < 1) index = 1;
+    urlSearchParams.set("page", index);
+    const liPage = createPageLink(path, urlSearchParams.toString(), index);
+    if (pagination.page === index) liPage.addClass("active");
+    $("ul.pagination").append(liPage);
+  }
+
+  //Add first page
+  if (pages.from > 1) {
+    $("ul.pagination>li:first").replaceWith("<li><span>…</span></li>");
+    urlSearchParams.set("page", 1);
+    $("ul.pagination").prepend(
+      createPageLink(path, urlSearchParams.toString(), 1)
+    );
+  }
+
+  //Add last page
+  if (pages.to < pagination.pages) {
+    $("ul.pagination>li:last").replaceWith("<li><span>…</span></li>");
+    urlSearchParams.set("page", pagination.pages);
+    $("ul.pagination").append(
+      createPageLink(path, urlSearchParams.toString(), pagination.pages)
+    );
+  }
+
+  //Add Prev and Next page buttons
+  if (pagination.pages > 1) {
+    const prev = $(`<li><a rel="prev">«</a></li>`);
+    const next = $(`<li><a rel="next">»</a></li>`);
+    if (pagination.page === 1) prev.addClass("disabled");
+    else {
+      urlSearchParams.set("page", pagination.page - 1);
+      prev
+        .find("a")
+        .attr("href", `${url.pathname}?${urlSearchParams.toString()}`);
+    }
+    if (pagination.page === pagination.pages) next.addClass("disabled");
+    else {
+      urlSearchParams.set("page", pagination.page + 1);
+      next
+        .find("a")
+        .attr("href", `${url.pathname}?${urlSearchParams.toString()}`);
+    }
+    $("ul.pagination").prepend(prev);
+    $("ul.pagination").append(next);
+  }
 };

@@ -32,6 +32,7 @@ const loadBaseListPage = (user) =>
           "action",
           "/perfil/zivangu9/vistos"
         );
+        $("ul.pagination").children().remove();
         //Set current filter
         $("input[type='checkbox'], input[type='radio']").each(
           (index, input) => {
@@ -47,6 +48,11 @@ const loadBaseListPage = (user) =>
           }
         );
         $("body").trigger("click");
+        $(".AAShwHdd-lnk").on("click", () => {
+          const shwhdd = $(".AAShwHdd-lnk").attr("data-shwhdd");
+          $(".AAShwHdd-lnk").toggleClass("on");
+          $("#" + shwhdd).toggleClass("show");
+        });
       }
     })
     .catch((error) => {
