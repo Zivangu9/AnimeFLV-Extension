@@ -26,4 +26,5 @@ if (currentPage === Pages.EPISODE) {
   });
   const config = { attributes: true };
   observer.observe($(".CVst")[0], config);
+  setLoading();
 }
