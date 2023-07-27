@@ -1,5 +1,5 @@
 //Create watched view
-if (currentPage === Pages.WATCHED) {
+if (currentPage === Pages.WATCHING) {
   getUser().then((user) => {
     if (user) {
       const profileName = url.pathname.split("/")[2];
@@ -8,12 +8,11 @@ if (currentPage === Pages.WATCHED) {
         profileName &&
         user.toLowerCase() === profileName.toLowerCase()
       ) {
-        loadBaseListPage(user, "Animes Vistos").then(() => {
-          $("select#status_select").parent().remove();
+        loadBaseListPage(user, "Animes Viendo").then(() => {
           chrome.runtime.sendMessage(
             { action: "getUserData", user },
             (response) => {
-              const result = filterList(response.watched, urlSearchParams);
+              const result = filterList(response.watching, urlSearchParams);
               const fromItem =
                 result.pagination.pageSize * (result.pagination.page - 1);
               result.data
@@ -21,7 +20,7 @@ if (currentPage === Pages.WATCHED) {
                 .forEach((anime) => {
                   $("main.Main>section>ul").append(createAnimeLi(anime));
                 });
-              createPagination(result.pagination, `/perfil/${user}/vistos`);
+              createPagination(result.pagination, `/perfil/${user}/viendo`);
             }
           );
         });

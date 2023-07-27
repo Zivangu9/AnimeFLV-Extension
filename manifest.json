@@ -27,6 +27,7 @@
                 "/views/anime.js",
                 "/views/profile.js",
                 "/views/watched.js",
+                "/views/watching.js",
                 "/views/episode.js"
             ],
             "css": [

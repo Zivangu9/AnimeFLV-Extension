@@ -1,4 +1,4 @@
-const loadBaseListPage = (user) =>
+const loadBaseListPage = (user, title) =>
   fetch(`https://www3.animeflv.net/perfil/${user}/favoritos`)
     .then((response) => response.text())
     .then((html) => {
@@ -9,7 +9,7 @@ const loadBaseListPage = (user) =>
         $("div.Wrapper>div.Body").replaceWith(
           $(html).filter("div.Wrapper").children().filter("div.Body")
         );
-        $("main.Main>section>div.Top>div.Title").text("Animes vistos");
+        $("main.Main>section>div.Top>div.Title").text(title);
         $("main.Main>section>ul").children().remove();
 
         //Filter
@@ -30,7 +30,7 @@ const loadBaseListPage = (user) =>
         $("select#year_select").parent().remove();
         $("form[action='/perfil/zivangu9/favoritos']").attr(
           "action",
-          "/perfil/zivangu9/vistos"
+          url.pathname
         );
         $("ul.pagination").children().remove();
         //Set current filter
@@ -58,6 +58,7 @@ const loadBaseListPage = (user) =>
     .catch((error) => {
       console.error("Error fetching profile page:", error);
     });
+
 const getUser = () =>
   fetch("https://www3.animeflv.net")
     .then((response) => response.text())
