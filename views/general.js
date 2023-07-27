@@ -2,6 +2,8 @@ const url = new URL(window.location.href);
 const urlSearchParams = new URLSearchParams(url.search);
 const currentPage = getCurrentPage(url);
 
+$("div.Wrapper").append(`<span class="loader"></span>`);
+$("ul.ListFollow").remove();
 //Fix stars
 $("div.Vts.fa-star").each((i, label) => {
   let stars = parseFloat($(label).text());
@@ -47,3 +49,4 @@ getUser().then((user) => {
     });
   }
 });
+if (currentPage === Pages.DEFAULT) setLoading();

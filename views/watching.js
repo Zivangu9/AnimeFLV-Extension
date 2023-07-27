@@ -3,11 +3,7 @@ if (currentPage === Pages.WATCHING) {
   getUser().then((user) => {
     if (user) {
       const profileName = url.pathname.split("/")[2];
-      if (
-        user &&
-        profileName &&
-        user.toLowerCase() === profileName.toLowerCase()
-      ) {
+      if (profileName && user.toLowerCase() === profileName.toLowerCase()) {
         loadBaseListPage(user, "Animes Viendo").then(() => {
           chrome.runtime.sendMessage(
             { action: "getUserData", user },
@@ -21,10 +17,11 @@ if (currentPage === Pages.WATCHING) {
                   $("main.Main>section>ul").append(createAnimeLi(anime));
                 });
               createPagination(result.pagination, `/perfil/${user}/viendo`);
+              setLoading();
             }
           );
         });
-      }
-    }
+      } else setLoading();
+    } else setLoading();
   });
 }

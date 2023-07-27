@@ -3,11 +3,7 @@ if (currentPage === Pages.WATCHED) {
   getUser().then((user) => {
     if (user) {
       const profileName = url.pathname.split("/")[2];
-      if (
-        user &&
-        profileName &&
-        user.toLowerCase() === profileName.toLowerCase()
-      ) {
+      if (profileName && user.toLowerCase() === profileName.toLowerCase()) {
         loadBaseListPage(user, "Animes Vistos").then(() => {
           $("select#status_select").parent().remove();
           chrome.runtime.sendMessage(
@@ -22,10 +18,11 @@ if (currentPage === Pages.WATCHED) {
                   $("main.Main>section>ul").append(createAnimeLi(anime));
                 });
               createPagination(result.pagination, `/perfil/${user}/vistos`);
+              setLoading();
             }
           );
         });
-      }
-    }
+      } else setLoading();
+    } else setLoading();
   });
 }

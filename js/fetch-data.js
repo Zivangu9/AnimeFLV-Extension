@@ -53,6 +53,7 @@ const loadBaseListPage = (user, title) =>
           $(".AAShwHdd-lnk").toggleClass("on");
           $("#" + shwhdd).toggleClass("show");
         });
+        $("ul.ListFollow").remove();
       }
     })
     .catch((error) => {

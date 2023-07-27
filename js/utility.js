@@ -33,6 +33,7 @@ const Pages = {
   WATCHING: 3,
   EPISODE: 4,
   ANIME: 5,
+  DEFAULT: 6,
 };
 
 const getCurrentPage = (url) => {
@@ -43,6 +44,7 @@ const getCurrentPage = (url) => {
   }
   if (url.pathname.startsWith("/ver/")) return Pages.EPISODE;
   if (url.pathname.startsWith("/anime/")) return Pages.ANIME;
+  return Pages.DEFAULT;
 };
 
 const parseHtmlToJson = (htmlString) => {
@@ -261,4 +263,9 @@ const createPagination = (pagination, path) => {
     $("ul.pagination").prepend(prev);
     $("ul.pagination").append(next);
   }
+};
+
+const setLoading = (flag = false) => {
+  if (flag) $("div.Wrapper").removeClass("Loaded");
+  else $("div.Wrapper").addClass("Loaded");
 };

@@ -56,5 +56,6 @@ if (currentPage === Pages.PROFILE) {
         }
       );
     }
+    setLoading();
   });
 }

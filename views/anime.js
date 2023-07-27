@@ -60,4 +60,5 @@ if (currentPage === Pages.ANIME) {
   };
 
   $(document).on("DOMNodeInserted", ".alertify-logs", callUpdateUserAnime);
+  setLoading();
 }
