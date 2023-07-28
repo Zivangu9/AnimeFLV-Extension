@@ -8,15 +8,17 @@ if (currentPage === Pages.WATCHING) {
           chrome.runtime.sendMessage(
             { action: "getUserData", user },
             (response) => {
-              const result = filterList(response.watching, urlSearchParams);
-              const fromItem =
-                result.pagination.pageSize * (result.pagination.page - 1);
-              result.data
-                .slice(fromItem, fromItem + result.pagination.pageSize)
-                .forEach((anime) => {
-                  $("main.Main>section>ul").append(createAnimeLi(anime));
-                });
-              createPagination(result.pagination, `/perfil/${user}/viendo`);
+              if (response) {
+                const result = filterList(response.watching, urlSearchParams);
+                const fromItem =
+                  result.pagination.pageSize * (result.pagination.page - 1);
+                result.data
+                  .slice(fromItem, fromItem + result.pagination.pageSize)
+                  .forEach((anime) => {
+                    $("main.Main>section>ul").append(createAnimeLi(anime));
+                  });
+                createPagination(result.pagination, `/perfil/${user}/viendo`);
+              }
               setLoading();
             }
           );

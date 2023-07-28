@@ -37,6 +37,7 @@ const Pages = {
 };
 
 const getCurrentPage = (url) => {
+  if (url.pathname === "/") return Pages.INDEX;
   if (url.pathname.startsWith("/perfil/")) {
     if (url.pathname.split("/").length === 3) return Pages.PROFILE;
     if (url.pathname.split("/")[3] === "vistos") return Pages.WATCHED;
@@ -164,6 +165,18 @@ const createAnimeLi = (anime, typeList) => {
   </li>`;
 };
 
+const createAnimeFigure = (anime) => {
+  return `
+    <li>
+      <a href="/anime/${anime.url_name}">
+          <figure>
+              <img src="${anime.cover_url}" alt="">
+              <figcaption>${anime.name}</figcaption>
+          </figure>
+      </a>
+    </li>`;
+};
+
 const filterList = (list, params) => {
   const pageSize = Number.parseInt(params.get("page_size")) || 24;
   const page = Number.parseInt(params.get("page")) || 1;
@@ -266,6 +279,11 @@ const createPagination = (pagination, path) => {
 };
 
 const setLoading = (flag = false) => {
-  if (flag) $("div.Wrapper").removeClass("Loaded");
-  else $("div.Wrapper").addClass("Loaded");
+  if (flag) {
+    $("div.Wrapper").removeClass("Loaded");
+    $("div.Bot.hidden-xs.hidden-sm").removeClass("Loaded");
+  } else {
+    $("div.Wrapper").addClass("Loaded");
+    $("div.Bot.hidden-xs.hidden-sm").addClass("Loaded");
+  }
 };

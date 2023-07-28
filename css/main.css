@@ -54,9 +54,18 @@
     }
 }
 
+div.Bot.hidden-xs.hidden-sm:not(.Loaded) {
+    display: none;
+}
+
+.ListAnTbNvTp>li>a.fa-eye:before {
+    color: #01bcf3;
+}
+
 .Wdgt.User .Avatar {
     height: auto !important;
 }
+
 a.a-spin::before {
     animation: fa-spin 1s steps(8) infinite;
 }
