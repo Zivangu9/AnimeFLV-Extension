@@ -64,11 +64,6 @@ const getUser = () =>
   fetch("https://www3.animeflv.net")
     .then((response) => response.text())
     .then((htmlString) => {
-      const avatarImage = getAvatarImage(htmlString);
-      if (avatarImage) {
-        const $avatarImage = $(avatarImage);
-        // console.log($avatarImage.attr("src")); //TODO: do we need the avatar image?
-      }
       const $html = $(removeImagesFromHtml(htmlString));
       const script = $html.filter("script:not([src]):not([type])")[0];
       const is_user_match = script.innerHTML.match(/var is_user = (.+);/);

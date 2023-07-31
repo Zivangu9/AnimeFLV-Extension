@@ -112,16 +112,6 @@ const removeImagesFromHtml = (html) => {
   return modifiedHtml;
 };
 
-const getAvatarImage = (html) => {
-  const parser = new DOMParser();
-  const doc = parser.parseFromString(html, "text/html");
-  const images = doc.getElementsByTagName("img");
-  for (let i = images.length - 1; i >= 0; i--) {
-    if (/\/uploads\/avatars\//.test(images[i].src)) return images[i];
-  }
-  return null;
-};
-
 const getTypeText = (type) => {
   if (type === "tv") return "ANIME";
   if (type === "ova") return "OVA";
@@ -129,7 +119,6 @@ const getTypeText = (type) => {
   if (type === "special") return "ESPECIAL ";
   return "";
 };
-//TODO: Remove social media links from profile
 
 const createTypeListIcon = (typeList) => {
   if (typeList) {

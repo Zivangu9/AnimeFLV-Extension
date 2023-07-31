@@ -48,7 +48,6 @@ const fetchUserAnimes = (user) => {
   isRunning = true;
   progress(0);
   complete_list.then(async (list) => {
-    // const listJson = JSON.parse(list).slice(0, 500); //Limit list to fetch
     const listJson = JSON.parse(list).map((info) => info[2]);
     const total = listJson.length;
     const max = 50;
