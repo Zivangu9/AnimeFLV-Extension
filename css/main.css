@@ -1,0 +1,79 @@
+.Wrapper:not(.Loaded)>.Body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #F5F5F5;
+    background-image: url(/assets/animeflv/img/bg.jpg);
+    z-index: 20;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Wrapper:not(.Loaded)>.Body::after {
+    content: "Cargando...";
+    font-size: 24px;
+    color: #9da1a4;
+    text-transform: uppercase;
+    font-weight: 700;
+    line-height: 50px;
+    z-index: 21;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.Wrapper:not(.Loaded)>.loader {
+    margin-left: -24px;
+    margin-top: 20px;
+    width: 48px;
+    height: 48px;
+    border: 6px solid #FFF;
+    border-bottom-color: #22DEFA;
+    border-radius: 50%;
+    display: inline-block;
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    z-index: 22;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+}
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+div.Bot.hidden-xs.hidden-sm:not(.Loaded) {
+    display: none;
+}
+
+.ListAnTbNvTp>li>a.fa-eye:before {
+    color: #01bcf3;
+}
+
+.Wdgt.User .Avatar {
+    height: auto !important;
+}
+
+a.a-spin::before {
+    animation: fa-spin 1s steps(8) infinite;
+}
+
+.alertify-logs {
+    z-index: 10;
+}
+
+.p-0 {
+    padding: 0 !important;
+}

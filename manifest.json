@@ -1,0 +1,48 @@
+{
+    "name": "AnimeFLV Extension",
+    "version": "1.0",
+    "manifest_version": 2,
+    "description": "Esta extensión te permite visualizar la lista de animes vistos y los que estás viendo solo si tienes una cuenta en la página.",
+    "developer": {
+        "name": "Ivan G."
+    },
+    "icons": {
+        "64": "/img/64x64.png",
+        "128": "/img/128x128.png",
+        "256": "/img/256x256.png"
+    },
+    "permissions": [
+        "tabs"
+    ],
+    "background": {
+        "scripts": [
+            "/js/jquery-3.7.0.min.js",
+            "/js/utility.js",
+            "/js/storage.js",
+            "/js/background.js"
+        ],
+        "persistent": true
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www3.animeflv.net/*"
+            ],
+            "js": [
+                "/js/jquery-3.7.0.min.js",
+                "/js/utility.js",
+                "/js/fetch-data.js",
+                "/views/general.js",
+                "/views/index.js",
+                "/views/anime.js",
+                "/views/profile.js",
+                "/views/watched.js",
+                "/views/watching.js",
+                "/views/episode.js"
+            ],
+            "css": [
+                "/css/main.css"
+            ]
+        }
+    ]
+}
